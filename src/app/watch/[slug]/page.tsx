@@ -49,10 +49,6 @@ export default async function WatchPage({
             Your browser does not support the video tag.
           </video>
         </div>
-        <p className="mt-4 text-sm text-zinc-500">
-          From the Newsflow briefing. Headlines from Punjab Kesari, Dainik Jagran, The Tribune &
-          The Print.
-        </p>
       </main>
     </div>
   );
