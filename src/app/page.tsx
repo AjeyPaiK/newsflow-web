@@ -35,9 +35,6 @@ export default async function Home() {
           <h1 className="mb-3 text-4xl font-bold tracking-tight text-white md:text-5xl">
             Your briefing, one place
           </h1>
-          <p className="mx-auto max-w-xl text-lg text-zinc-400">
-            Aggregated from Punjab Kesari, Dainik Jagran, The Tribune & The Print. Watch the show.
-          </p>
         </section>
 
         <section id="videos" className="mb-20">
