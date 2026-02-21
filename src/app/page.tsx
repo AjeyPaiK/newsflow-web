@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fetchNews, fetchVideos } from "@/lib/api";
+import { fetchNews, fetchVideos, getStreamUrl } from "@/lib/api";
 
 export const revalidate = 300;
 export const dynamic = "force-dynamic";
@@ -44,21 +44,17 @@ export default async function Home() {
               No episodes yet. Check back after the next run.
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {videos.map((v) => (
-                <Link
-                  key={v.id}
-                  href={`/watch/${encodeURIComponent(v.filename)}`}
-                  className="group block overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 transition hover:border-amber-500/50 hover:bg-zinc-800/60"
-                >
-                  <div className="aspect-video bg-zinc-800 flex items-center justify-center">
-                    <span className="text-4xl text-zinc-600 group-hover:text-amber-500/80">▶</span>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-medium text-white group-hover:text-amber-400">{v.title}</h3>
-                  </div>
-                </Link>
-              ))}
+            <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
+              <video
+                key={getStreamUrl(videos[0].filename)}
+                controls
+                className="w-full"
+                src={getStreamUrl(videos[0].filename)}
+                preload="metadata"
+              >
+                Your browser does not support the video tag.
+              </video>
+              <p className="mt-2 text-sm text-zinc-400">{videos[0].title}</p>
             </div>
           )}
         </section>
