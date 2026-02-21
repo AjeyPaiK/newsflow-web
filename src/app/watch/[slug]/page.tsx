@@ -18,25 +18,29 @@ export default async function WatchPage({
   const streamUrl = getStreamUrl(video.filename);
 
   return (
-    <div className="min-h-screen bg-[#0c0e12] text-zinc-100">
-      <header className="border-b border-zinc-800/80 bg-[#0c0e12]/95 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center gap-4 px-4 py-4">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+      <header className="sticky top-0 z-10 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-4xl items-center gap-4 px-4 py-5">
           <Link
             href="/"
-            className="text-zinc-400 transition hover:text-amber-400"
+            className="text-[var(--muted)] transition hover:text-[var(--foreground)]"
             aria-label="Back to home"
           >
             ← Back
           </Link>
-          <span className="text-xl font-bold tracking-tight text-amber-400">Newsflow</span>
+          <span className="font-serif text-xl font-semibold tracking-tight text-[var(--accent)]">
+            Newsflow
+          </span>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-8">
+      <main className="mx-auto max-w-4xl px-4 py-8">
         <div className="mb-4">
-          <h1 className="text-2xl font-semibold text-white">{video.title}</h1>
+          <h1 className="font-serif text-2xl font-semibold text-[var(--foreground)]">
+            {video.title}
+          </h1>
         </div>
-        <div className="overflow-hidden rounded-xl border border-zinc-800 bg-black">
+        <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm">
           <video
             key={streamUrl}
             controls
