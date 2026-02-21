@@ -22,7 +22,7 @@ export default async function Home() {
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-5">
           <Link
             href="/"
-            className="font-serif text-xl font-semibold tracking-tight text-[var(--accent)] transition hover:text-[var(--accent-hover)]"
+            className="font-serif text-xl font-semibold tracking-tight text-[var(--foreground)] transition hover:text-[var(--accent)]"
           >
             Newsflow
           </Link>

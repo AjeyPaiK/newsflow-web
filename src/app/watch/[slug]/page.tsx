@@ -28,7 +28,7 @@ export default async function WatchPage({
           >
             ← Back
           </Link>
-          <span className="font-serif text-xl font-semibold tracking-tight text-[var(--accent)]">
+          <span className="font-serif text-xl font-semibold tracking-tight text-[var(--foreground)]">
             Newsflow
           </span>
         </div>
