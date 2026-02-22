@@ -48,7 +48,7 @@ export default async function PodcastsPage({ searchParams }: Props) {
             India News Podcasts
           </h1>
           <p className="mt-2 text-[var(--muted)]">
-            High-quality audio briefs in multiple Indian languages. Intro, news roundup, and closing with music.
+            Trending news from across the country—as audio briefs in the language you prefer.
           </p>
         </section>
 
