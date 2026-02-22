@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { fetchNews, fetchVideos, getStreamUrl } from "@/lib/api";
+import { fetchNews } from "@/lib/api";
 
-export const revalidate = 300;
+export const revalidate = 3600; // 1 hour
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [news, videos] = await Promise.all([fetchNews(), fetchVideos()]);
+  const news = await fetchNews();
 
   const byCategory = news.reduce<Record<string, typeof news>>((acc, item) => {
     const c = item.category || "general";
@@ -27,9 +27,9 @@ export default async function Home() {
             Newsflow
           </Link>
           <nav className="flex gap-8 text-sm font-medium text-[var(--muted)]">
-            <a href="#videos" className="transition hover:text-[var(--foreground)]">
-              Videos
-            </a>
+            <Link href="/podcasts" className="transition hover:text-[var(--foreground)]">
+              Podcasts
+            </Link>
             <a href="#news" className="transition hover:text-[var(--foreground)]">
               News
             </a>
@@ -45,32 +45,6 @@ export default async function Home() {
           <p className="mt-3 text-lg text-[var(--muted)]">
             Aggregated from trusted sources. Watch the show.
           </p>
-        </section>
-
-        <section id="videos" className="mb-20">
-          <h2 className="font-serif mb-6 text-2xl font-semibold text-[var(--foreground)]">
-            Latest episodes
-          </h2>
-          {videos.length === 0 ? (
-            <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-8 py-14 text-center text-[var(--muted)] shadow-sm">
-              No episodes yet. Check back after the next run.
-            </div>
-          ) : (
-            <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm">
-              <video
-                key={getStreamUrl(videos[0].filename)}
-                controls
-                className="w-full"
-                src={getStreamUrl(videos[0].filename)}
-                preload="metadata"
-              >
-                Your browser does not support the video tag.
-              </video>
-              <p className="px-5 py-3 text-sm font-medium text-[var(--foreground)]">
-                {videos[0].title}
-              </p>
-            </div>
-          )}
         </section>
 
         <section id="news" className="mb-20">

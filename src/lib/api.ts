@@ -18,6 +18,14 @@ export interface VideoItem {
   created_at: string | null;
 }
 
+export interface AudioItem {
+  id: string;
+  title: string;
+  filename: string;
+  url: string;
+  created_at: string | null;
+}
+
 export async function fetchNews(categories?: string): Promise<NewsItem[]> {
   try {
     const q = categories ? `?categories=${encodeURIComponent(categories)}` : "";
@@ -49,4 +57,24 @@ export async function fetchVideos(): Promise<VideoItem[]> {
 
 export function getStreamUrl(filename: string): string {
   return `${API_URL}/videos/${filename}/stream`;
+}
+
+export async function fetchPodcasts(): Promise<AudioItem[]> {
+  try {
+    const res = await fetch(`${API_URL}/audio`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const list: AudioItem[] = await res.json();
+    return list.map((a) => ({
+      ...a,
+      url: `${API_URL}${a.url}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export function getAudioStreamUrl(filename: string): string {
+  return `${API_URL}/audio/${filename}/stream`;
 }
