@@ -14,7 +14,7 @@ The app talks to the **Newsflow API** (hosted on Render). Set `NEXT_PUBLIC_API_U
    cd /path/to/newsflow
    newsflow --no-youtube-upload
    ```
-   This writes timestamped videos to `output/videos/` (e.g. `youtube_brief_20250222_120000.mp4`).
+   This writes timestamped videos to `output/videos/` (e.g. `video_brief_20250222_120000.mp4`).
 
 2. **Start the Newsflow API** so it serves those files:
    ```bash
