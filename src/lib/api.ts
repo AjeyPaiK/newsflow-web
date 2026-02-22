@@ -24,6 +24,7 @@ export interface AudioItem {
   filename: string;
   url: string;
   created_at: string | null;
+  language: string | null;
 }
 
 export async function fetchNews(categories?: string): Promise<NewsItem[]> {
@@ -59,9 +60,24 @@ export function getStreamUrl(filename: string): string {
   return `${API_URL}/videos/${filename}/stream`;
 }
 
-export async function fetchPodcasts(): Promise<AudioItem[]> {
+const LANGUAGE_NAMES: Record<string, string> = {
+  "en-IN": "English",
+  "hi-IN": "Hindi",
+  "bn-IN": "Bengali",
+  "ta-IN": "Tamil",
+  "te-IN": "Telugu",
+  "kn-IN": "Kannada",
+  "ml-IN": "Malayalam",
+  "mr-IN": "Marathi",
+  "gu-IN": "Gujarati",
+  "pa-IN": "Punjabi",
+  "od-IN": "Odia",
+};
+
+export async function fetchPodcasts(language?: string): Promise<AudioItem[]> {
   try {
-    const res = await fetch(`${API_URL}/audio`, {
+    const q = language ? `?language=${encodeURIComponent(language)}` : "";
+    const res = await fetch(`${API_URL}/audio${q}`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
@@ -73,6 +89,10 @@ export async function fetchPodcasts(): Promise<AudioItem[]> {
   } catch {
     return [];
   }
+}
+
+export function getLanguageName(code: string): string {
+  return LANGUAGE_NAMES[code] ?? code;
 }
 
 export function getAudioStreamUrl(filename: string): string {

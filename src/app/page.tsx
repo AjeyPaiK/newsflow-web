@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { fetchNews } from "@/lib/api";
+import { fetchNews, fetchVideos, getStreamUrl } from "@/lib/api";
 
 export const revalidate = 3600; // 1 hour
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const news = await fetchNews();
+  const [news, videos] = await Promise.all([fetchNews(), fetchVideos()]);
 
   const byCategory = news.reduce<Record<string, typeof news>>((acc, item) => {
     const c = item.category || "general";
@@ -46,6 +46,41 @@ export default async function Home() {
             Aggregated from trusted sources. Watch the show.
           </p>
         </section>
+
+        {videos.length > 0 && (
+          <section className="mb-20 -mx-4" aria-label="Latest video briefs">
+            <div className="overflow-hidden">
+              <div className="flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[var(--border)] hover:scrollbar-thumb-[var(--muted)] scroll-smooth snap-x snap-mandatory">
+                {videos.map((video) => (
+                  <Link
+                    key={video.id}
+                    href={`/watch/${encodeURIComponent(video.filename)}`}
+                    className="group flex-shrink-0 w-[280px] snap-start rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm transition hover:border-[var(--accent)]/40 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                  >
+                    <div className="relative aspect-video w-full overflow-hidden rounded-t-xl bg-[var(--muted)]/20">
+                      <video
+                        src={getStreamUrl(video.filename)}
+                        className="h-full w-full object-cover"
+                        preload="metadata"
+                        muted
+                        playsInline
+                        aria-hidden
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <span className="rounded-full bg-[var(--foreground)]/90 p-3 text-white shadow-lg">
+                          <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden><path d="M8 5v14l11-7z"/></svg>
+                        </span>
+                      </div>
+                    </div>
+                    <p className="px-3 py-2.5 text-sm font-medium text-[var(--foreground)] line-clamp-2">
+                      {video.title}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section id="news" className="mb-20">
           <h2 className="font-serif mb-8 text-2xl font-semibold text-[var(--foreground)]">
