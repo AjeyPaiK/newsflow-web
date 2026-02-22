@@ -40,7 +40,7 @@ export default async function Home() {
             Your briefing, one place
           </h1>
           <p className="mt-3 text-lg text-[var(--muted)]">
-            Aggregated from trusted sources. Watch the show.
+            Aggregated from trusted sources.
           </p>
         </section>
 
