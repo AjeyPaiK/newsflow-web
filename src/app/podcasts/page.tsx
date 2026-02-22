@@ -35,9 +35,6 @@ export default async function PodcastsPage({ searchParams }: Props) {
           </Link>
           <nav className="flex gap-8 text-sm font-medium text-[var(--muted)]">
             <span className="text-[var(--foreground)]">Podcasts</span>
-            <Link href="/" className="transition hover:text-[var(--foreground)]">
-              News
-            </Link>
           </nav>
         </div>
       </header>

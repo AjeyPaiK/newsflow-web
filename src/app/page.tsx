@@ -30,9 +30,6 @@ export default async function Home() {
             <Link href="/podcasts" className="transition hover:text-[var(--foreground)]">
               Podcasts
             </Link>
-            <a href="#news" className="transition hover:text-[var(--foreground)]">
-              News
-            </a>
           </nav>
         </div>
       </header>
@@ -48,35 +45,20 @@ export default async function Home() {
         </section>
 
         {videos.length > 0 && (
-          <section className="mb-20 -mx-4" aria-label="Latest video briefs">
-            <div className="overflow-hidden">
-              <div className="flex gap-4 overflow-x-auto px-4 pb-2 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[var(--border)] hover:scrollbar-thumb-[var(--muted)] scroll-smooth snap-x snap-mandatory">
-                {videos.map((video) => (
-                  <Link
-                    key={video.id}
-                    href={`/watch/${encodeURIComponent(video.filename)}`}
-                    className="group flex-shrink-0 w-[280px] snap-start rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm transition hover:border-[var(--accent)]/40 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-                  >
-                    <div className="relative aspect-video w-full overflow-hidden rounded-t-xl bg-[var(--muted)]/20">
-                      <video
-                        src={getStreamUrl(video.filename)}
-                        className="h-full w-full object-cover"
-                        preload="metadata"
-                        muted
-                        playsInline
-                        aria-hidden
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                        <span className="rounded-full bg-[var(--foreground)]/90 p-3 text-white shadow-lg">
-                          <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden><path d="M8 5v14l11-7z"/></svg>
-                        </span>
-                      </div>
-                    </div>
-                    <p className="px-3 py-2.5 text-sm font-medium text-[var(--foreground)] line-clamp-2">
-                      {video.title}
-                    </p>
-                  </Link>
-                ))}
+          <section className="mb-20" aria-label="Video brief">
+            <div className="mx-auto flex max-w-2xl flex-col items-center">
+              <div className="w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm">
+                <video
+                  src={getStreamUrl(videos[0].filename)}
+                  className="aspect-video w-full bg-[var(--muted)]/20"
+                  controls
+                  preload="metadata"
+                  playsInline
+                  aria-label={videos[0].title}
+                />
+                <p className="px-4 py-3 text-sm font-medium text-[var(--foreground)]">
+                  {videos[0].title}
+                </p>
               </div>
             </div>
           </section>
