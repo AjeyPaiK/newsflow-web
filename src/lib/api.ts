@@ -98,3 +98,24 @@ export function getLanguageName(code: string): string {
 export function getAudioStreamUrl(filename: string): string {
   return `${API_URL}/audio/${filename}/stream`;
 }
+
+export async function fetchStoryPodcasts(language?: string): Promise<AudioItem[]> {
+  try {
+    const q = language ? `?language=${encodeURIComponent(language)}` : "";
+    const res = await fetch(`${API_URL}/audio/stories/panchatantra${q}`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) return [];
+    const list: AudioItem[] = await res.json();
+    return list.map((a) => ({
+      ...a,
+      url: `${API_URL}${a.url}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export function getStoryAudioStreamUrl(filename: string): string {
+  return `${API_URL}/audio/stories/panchatantra/${filename}/stream`;
+}

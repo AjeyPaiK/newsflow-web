@@ -30,6 +30,9 @@ export default async function Home() {
             <Link href="/podcasts" className="transition hover:text-[var(--foreground)]">
               Podcasts
             </Link>
+            <Link href="/stories" className="transition hover:text-[var(--foreground)]">
+              Stories
+            </Link>
           </nav>
         </div>
       </header>

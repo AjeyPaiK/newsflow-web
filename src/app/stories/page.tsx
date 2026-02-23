@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { fetchPodcasts, getAudioStreamUrl, getLanguageName } from "@/lib/api";
+import { fetchStoryPodcasts, getLanguageName, getStoryAudioStreamUrl } from "@/lib/api";
 
 export const revalidate = 60;
 
@@ -19,9 +19,9 @@ const LANGUAGES = [
 
 type Props = { searchParams: Promise<{ language?: string }> };
 
-export default async function PodcastsPage({ searchParams }: Props) {
+export default async function StoriesPage({ searchParams }: Props) {
   const { language: langFilter } = await searchParams;
-  const podcasts = await fetchPodcasts(langFilter);
+  const stories = await fetchStoryPodcasts(langFilter);
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
@@ -34,10 +34,10 @@ export default async function PodcastsPage({ searchParams }: Props) {
             Newsflow
           </Link>
           <nav className="flex gap-8 text-sm font-medium text-[var(--muted)]">
-            <span className="text-[var(--foreground)]">Podcasts</span>
-            <Link href="/stories" className="transition hover:text-[var(--foreground)]">
-              Stories
+            <Link href="/podcasts" className="transition hover:text-[var(--foreground)]">
+              Podcasts
             </Link>
+            <span className="text-[var(--foreground)]">Stories</span>
           </nav>
         </div>
       </header>
@@ -45,10 +45,10 @@ export default async function PodcastsPage({ searchParams }: Props) {
       <main className="mx-auto max-w-4xl px-4 py-14">
         <section className="mb-10">
           <h1 className="font-serif text-3xl font-semibold tracking-tight text-[var(--foreground)] md:text-4xl">
-            India News Podcasts
+            Story podcasts
           </h1>
           <p className="mt-2 text-[var(--muted)]">
-            Trending news from across the country—as audio briefs in the language you prefer.
+            Panchatantra and other story episodes—as audio in the language you prefer.
           </p>
         </section>
 
@@ -58,7 +58,7 @@ export default async function PodcastsPage({ searchParams }: Props) {
           </h2>
           <div className="flex flex-wrap gap-2">
             <Link
-              href="/podcasts"
+              href="/stories"
               className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                 !langFilter
                   ? "bg-[var(--accent)] text-[var(--background)]"
@@ -70,7 +70,7 @@ export default async function PodcastsPage({ searchParams }: Props) {
             {LANGUAGES.map(({ code, name }) => (
               <Link
                 key={code}
-                href={`/podcasts?language=${encodeURIComponent(code)}`}
+                href={`/stories?language=${encodeURIComponent(code)}`}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                   langFilter === code
                     ? "bg-[var(--accent)] text-[var(--background)]"
@@ -83,33 +83,33 @@ export default async function PodcastsPage({ searchParams }: Props) {
           </div>
         </section>
 
-        {podcasts.length === 0 ? (
+        {stories.length === 0 ? (
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--card)] px-8 py-14 text-center text-[var(--muted)] shadow-sm">
             {langFilter
-              ? `No podcasts in ${getLanguageName(langFilter)} yet. Try another language or run the podcast pipeline.`
-              : "No audio recordings yet. Run the podcast pipeline (e.g. newsflow --podcasts-only) to generate India news in 11 Indian languages."}
+              ? `No story podcasts in ${getLanguageName(langFilter)} yet. Try another language or run the Panchatantra pipeline.`
+              : "No story episodes yet. Run the Panchatantra pipeline (e.g. newsflow panchatantra-podcasts) to generate story podcasts in 11 Indian languages."}
           </div>
         ) : (
           <ul className="space-y-4">
-            {podcasts.map((podcast) => (
+            {stories.map((story) => (
               <li
-                key={podcast.id}
+                key={story.id}
                 className="rounded-2xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm transition hover:border-[var(--accent)]/30"
               >
                 <div className="mb-3 flex flex-wrap items-center gap-2">
                   <h2 className="font-medium text-[var(--foreground)]">
-                    {podcast.title}
+                    {story.title}
                   </h2>
-                  {podcast.language && (
+                  {story.language && (
                     <span className="rounded-md bg-[var(--accent)]/15 px-2 py-0.5 text-xs font-medium text-[var(--accent)]">
-                      {getLanguageName(podcast.language)}
+                      {getLanguageName(story.language)}
                     </span>
                   )}
                 </div>
                 <audio
                   controls
                   className="w-full"
-                  src={getAudioStreamUrl(podcast.filename)}
+                  src={getStoryAudioStreamUrl(story.filename)}
                   preload="metadata"
                 >
                   Your browser does not support the audio element.
@@ -121,7 +121,7 @@ export default async function PodcastsPage({ searchParams }: Props) {
       </main>
 
       <footer className="border-t border-[var(--border)] py-8 text-center text-sm text-[var(--muted)]">
-        Newsflow — India news & audio briefs in 11 languages
+        Newsflow — Story podcasts in 11 languages
       </footer>
     </div>
   );
